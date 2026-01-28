@@ -1,19 +1,27 @@
 {
-  "name": "@bytriska/tiered-find-up",
+  "name": "@bytriska/priority-find-up",
   "type": "module",
   "version": "0.0.0",
   "packageManager": "pnpm@10.27.0",
-  "description": "Advanced find-up with tiered priority. Find the right file, not just the nearest one.",
+  "description": "Find files by walking up parent directories and resolving them based on an ordered priority manifest.",
   "author": "Triska Mahfud K (https://github.com/bytriska)",
   "license": "MIT",
   "funding": "https://github.com/sponsors/bytriska",
-  "homepage": "https://github.com/bytriska/tiered-find-up#readme",
+  "homepage": "https://github.com/bytriska/priority-find-up#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bytriska/tiered-find-up.git"
+    "url": "git+https://github.com/bytriska/priority-find-up.git"
   },
-  "bugs": "https://github.com/bytriska/tiered-find-up/issues",
-  "keywords": [],
+  "bugs": "https://github.com/bytriska/priority-find-up/issues",
+  "keywords": [
+    "find-up",
+    "priority-search",
+    "tiered-search",
+    "filesystem",
+    "config-resolver",
+    "typescript",
+    "nodejs"
+  ],
   "exports": {
     "types": "./dist/index.d.ts",
     "import": "./dist/index.mjs",

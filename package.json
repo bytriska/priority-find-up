@@ -36,7 +36,7 @@
     "release": "pnpm test && bumpp && pnpm publish --access public",
     "lint": "prettier --check . && eslint .",
     "lint:fix": "prettier --write . && eslint --fix .",
-    "test": "vitest",
+    "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "prepare": "simple-git-hooks"
   },

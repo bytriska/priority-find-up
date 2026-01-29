@@ -34,8 +34,8 @@
   "scripts": {
     "build": "tsup-node",
     "release": "pnpm test && bumpp && pnpm publish --access public",
-    "lint": "eslint . && prettier --check .",
-    "lint:fix": "eslint --fix . && prettier --write .",
+    "lint": "prettier --check . && eslint .",
+    "lint:fix": "prettier --write . && eslint --fix .",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "prepare": "simple-git-hooks"
@@ -46,7 +46,6 @@
     "@vitest/coverage-v8": "^4.0.16",
     "bumpp": "^10.3.2",
     "eslint": "^9.39.2",
-    "lint-staged": "^16.2.7",
     "prettier": "3.3.3",
     "simple-git-hooks": "^2.13.1",
     "tsup": "^8.5.1",
@@ -54,12 +53,6 @@
     "vitest": "^4.0.16"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,ts,cjs,mjs,json,yaml,md}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
+    "pre-commit": "pnpm test && pnpm lint:fix"
   }
 }

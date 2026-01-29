@@ -19,8 +19,8 @@ export interface FoundResult {
 
 async function* lookup(
   keys: SearchKey,
-  options: Required<FindOptions> & { data?: { depth: number } }
-): AsyncGenerator<{ path: string; key: string; depth: number }> {
+  options: Required<FindOptions> & { data?: { depth: number } },
+): AsyncGenerator<{ path: string, key: string, depth: number }> {
   const depth = options.data?.depth ?? 0
   let keyList = keys
   if (typeof keyList === 'string') {
@@ -46,7 +46,7 @@ async function* lookup(
 
 export async function findUpAll(
   manifest: PriorityManifest,
-  options?: FindOptions
+  options?: FindOptions,
 ): Promise<FoundResult[]> {
   const normalizedOptions = {
     cwd: options?.cwd ?? process.cwd(),
@@ -70,7 +70,7 @@ export async function findUpAll(
 
 export async function findUp(
   manifest: PriorityManifest,
-  options?: FindOptions
+  options?: FindOptions,
 ): Promise<FoundResult | null> {
   const normalizedOptions = {
     cwd: options?.cwd ?? process.cwd(),

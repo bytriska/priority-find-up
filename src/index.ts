@@ -84,3 +84,8 @@ export async function resolveOne(
 
   return null
 }
+
+export default {
+  resolveAll,
+  resolveOne,
+}

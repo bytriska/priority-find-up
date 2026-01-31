@@ -1,51 +1,116 @@
-# ts-package-starter
+# @bytriska/priority-find-up
 
-A modern TypeScript starter template for quickly bootstrapping new projects with best practices.
+**Find files by walking up parent directories and resolving them based on an ordered priority manifest.**
 
-## Features
+Unlike conventional `find-up` utilities that stop at the first file they encounter (proximity-based), `@bytriska/priority-find-up` prioritizes **manifest order** over **location**. It ensures that higher-priority files (e.g., a production config) are discovered first, even if a lower-priority file exists closer to your current working directory.
 
-- TypeScript support
-- Pre-configured build scripts (ESM & CJS)
-- Linting and formatting (ESLint, Prettier)
-- Unit testing (Vitest)
-- GitHub Actions CI workflow
+## ✨ Features
 
-## Getting Started
+- 🎯 **Priority-First Resolution**: Respects the order of your manifest over directory proximity.
+- 🌊 **Waterfall Traversal**: Leverages `AsyncGenerators` for memory-efficient and performant file discovery.
+- 📦 **Tiered Grouping**: Supports nested arrays to treat multiple file variations as a single priority tier.
+- 🛡️ **Boundary Control**: Use `boundaryDir` to prevent the search from leaking outside of your project or workspace root.
+- 🚀 **Zero Dependencies**: Built natively using `node:fs/promises`.
 
-1. **Clone this template:**
-
-```bash
-git clone https://github.com/bytriska/ts-package-starter.git
-cd ts-package-starter
-```
-
-2. **Install pnpm (if not already installed):**
+## 📦 Installation
 
 ```bash
-corepack enable
-corepack prepare pnpm@latest --activate
+npm install @bytriska/priority-find-up
+
 ```
 
-3. **Install dependencies:**
+## 💡 Concept: Priority vs. Proximity
 
-```bash
-pnpm install
+Standard utilities find the **nearest** file. This library finds the **most important** file based on your manifest order.
+
+### The Scenario
+
+Imagine searching from `/project/apps/api` with this structure:
+
+```text
+/project
+├── config.prod.json       # Tier 0 (High Priority)
+└── /apps/api
+    └── config.json        # Tier 1 (Lower Priority)
+
 ```
 
-4. **Start building your project:**
+### The Comparison
 
-- Edit the source files in `src/`
-- Update `package.json` and other configs as needed
+#### ❌ Standard `find-up` (Proximity-based)
 
-5. **Run scripts:**
+Stops at the first match it sees in the current directory.
 
-- Build: `pnpm build`
-- Test: `pnpm test`
+```typescript
+const result = await findUp(['config.prod.json', 'config.json'])
+// Returns: "/project/apps/api/config.json"
+```
 
-## Usage
+#### ✅ `@bytriska/priority-find-up` (Priority-based)
 
-Use this template as a starting point for your own TypeScript projects. Customize as needed for your use case.
+Exhausts the search for higher tiers before looking for lower tiers.
 
-## License
+```typescript
+const result = await resolveOne(['config.prod.json', 'config.json'])
+// Returns: "/project/config.prod.json"
+```
 
-MIT
+**Result:** Even though `config.json` was closer, `resolveOne` successfully prioritizes the production config located in the parent directory.
+
+## 🚀 Usage
+
+### `resolveOne`
+
+Finds the single best match according to your manifest hierarchy.
+
+```typescript
+import { resolveOne } from '@bytriska/priority-find-up'
+
+const result = await resolveOne(['config.prod.json', 'config.json'], { cwd: process.cwd() })
+
+if (result) {
+  console.log(`Path: ${result.path}`)
+  console.log(`Tier: ${result.priority}`) // 0 for prod, 1 for standard
+}
+```
+
+### `resolveAll`
+
+Finds all matching files across all directories, sorted by your priority manifest.
+
+```typescript
+import { resolveAll } from '@bytriska/priority-find-up'
+
+const entries = await resolveAll(['local.env', ['.env.production', '.env']])
+
+// result will contain all found files, ordered by priority tiers.
+```
+
+## 🛠 API Reference
+
+### `resolveOne(manifest, options)` / `resolveAll(manifest, options)`
+
+#### `manifest: ResolutionManifest`
+
+An array of strings or nested arrays representing your search tiers.
+`type ResolutionManifest = (string | string[])[]`
+
+#### `options: ResolveOptions`
+
+| Option        | Type     | Default         | Description                                      |
+| ------------- | -------- | --------------- | ------------------------------------------------ |
+| `cwd`         | `string` | `process.cwd()` | The directory to start searching from.           |
+| `boundaryDir` | `string` | System Root     | The directory where the upward search must stop. |
+
+### `ResolutionEntry`
+
+The object returned upon a successful match:
+
+- `path`: The absolute path to the file.
+- `priority`: The index of the candidate in your manifest.
+- `identifier`: The specific filename that triggered the match.
+- `distance`: The number of directory levels jumped from `cwd`.
+
+## 📄 License
+
+MIT © [Triska](https://github.com/bytriska)

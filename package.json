@@ -1,5 +1,5 @@
 {
-  "name": "@bytriska/priority-find-up",
+  "name": "@bytriska/find-up",
   "type": "module",
   "version": "1.2.2",
   "packageManager": "pnpm@10.27.0",
@@ -7,12 +7,12 @@
   "author": "Triska Mahfud K (https://github.com/bytriska)",
   "license": "MIT",
   "funding": "https://github.com/sponsors/bytriska",
-  "homepage": "https://github.com/bytriska/priority-find-up#readme",
+  "homepage": "https://github.com/bytriska/find-up#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bytriska/priority-find-up.git"
+    "url": "git+https://github.com/bytriska/find-up.git"
   },
-  "bugs": "https://github.com/bytriska/priority-find-up/issues",
+  "bugs": "https://github.com/bytriska/find-up/issues",
   "keywords": [
     "find-up",
     "priority-search",

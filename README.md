@@ -1,8 +1,8 @@
-# @bytriska/priority-find-up
+# @bytriska/find-up
 
 **A priority-aware file discovery utility that respects manifest order over directory depth.**
 
-Unlike libraries like [find-up](https://github.com/sindresorhus/find-up.git) which return the first file encountered while walking up the directory tree, `@bytriska/priority-find-up` prioritizes your manifest order. It ensures that if a higher-priority file exists anywhere in the path up to the root, it will be preferred over a lower-priority file found closer to the current working directory.
+Unlike libraries like [find-up](https://github.com/sindresorhus/find-up.git) which return the first file encountered while walking up the directory tree, `@bytriska/find-up` prioritizes your manifest order. It ensures that if a higher-priority file exists anywhere in the path up to the root, it will be preferred over a lower-priority file found closer to the current working directory.
 
 ## The Difference
 
@@ -30,12 +30,12 @@ await findUp(['high-priority.png', 'low-priority.png'])
 // => '/home/user/project/src/low-priority.png'
 ```
 
-### `@bytriska/priority-find-up` behavior
+### `@bytriska/find-up` behavior
 
 This library ensures the search respects the order of your array, regardless of depth.
 
 ```js
-import { resolveOne } from '@bytriska/priority-find-up'
+import { resolveOne } from '@bytriska/find-up'
 
 await resolveOne(['high-priority.png', 'low-priority.png'])
 // => { path: '/home/user/high-priority.png', priority: 0, ... }
@@ -46,9 +46,9 @@ await resolveOne(['high-priority.png', 'low-priority.png'])
 ## Installation
 
 ```bash
-npm install @bytriska/priority-find-up
+npm install @bytriska/find-up
 # or
-pnpm add @bytriska/priority-find-up
+pnpm add @bytriska/find-up
 ```
 
 ---
